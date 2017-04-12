@@ -1,20 +1,28 @@
-# node-cli-boilerplate
+# create-wxapp-page
 
-## Supports
+## 功能
 
-- ES6 (using `babel`)
-- Auto testing (using `mocha`)
+- 自动化生成微信小程序页面，支持（less, scss, wxss）
+- 自动更新app.json,添加生成页面
 
-## Start a project
+## 安装
 
-Make sure you have installed [Node.js](https://nodejs.org/).
+```bash
+$ yarn creat-wxapp-page
+```
 
-1. `git clone` this repo
-2. `cd` to this repo dir, and run `node setup`
-3. Happy hacking
 
-## Related Projects
+## 用法
 
+```bash
+$ cd ./my-wxapp-project
+$ create-wxapp-page -d ./src/
+#回答问题
+#自动生成...
+```
+
+## 相关项目
+- [node-cli-boilerplate](https://github.com/cantonjs/node-cli-boilerplate)
 - [react-lib-boilerplate](https://github.com/cantonjs/react-lib-boilerplate)
 - [front-end-lib-boilerplate](https://github.com/cantonjs/front-end-lib-boilerplate)
 
