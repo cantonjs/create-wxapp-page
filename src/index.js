@@ -36,7 +36,7 @@ export const createPage = (options) => {
 	const { dir, name } = options;
 	const root = path.isAbsolute(dir) ? dir : path.resolve(cwd, dir);
 
-	const pageRoot = path.resolve(options.root, 'pages', name);
+	const pageRoot = path.resolve(root, 'pages', name);
 
 	if (fs.existsSync(pageRoot)) {
 		throw new Error('file already exited');
@@ -56,6 +56,7 @@ export const createPage = (options) => {
 	generateJson(root, name);
 };
 
+//TODO: 优化配置，使命令行配置和问答配置融合，如果app.json不存在 直接报错
 inquirer.prompt([
 	{
 		type: 'input',
