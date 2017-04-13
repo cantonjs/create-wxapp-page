@@ -88,6 +88,6 @@ inquirer.prompt([
 	});
 })
 .catch((err) => {
-	throw new Error('create page fail: ', err);
+	console.error('create page fail: ', err);
 });
 
