@@ -13,16 +13,16 @@ describe('test', async () => {
 		child.stdin.setEncoding('utf-8');
 		child.stdout.setEncoding('utf-8');
 
-		// child.stdout.on('data', (data) => {
-		// 	const info = data.trim();
-		// 	console.log(info);
-		// });
+		child.stdout.on('data', (data) => {
+			const info = data.trim();
+			console.log(info);
+		});
 
 		await delay();
 		child.stdin.write('test\n');
 
 		await delay();
-		child.stdin.write('y\n');
+		child.stdin.write('n\n');
 
 		await delay();
 		child.stdin.write('\n');
