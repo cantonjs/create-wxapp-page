@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "main": "lib/index",
   "bin": {
-    "create-wxapp-page": "bin/index"
+    "create-wxapp-page": "bin/create-wxapp-page"
   },
   "files": [
     "*.md",
