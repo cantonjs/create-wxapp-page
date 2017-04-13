@@ -10,29 +10,33 @@ import yargs, { argv } from 'yargs';
 // import jsonTemplate from './templates/json';
 
 
-const generateJson = (options) => {
-	const filename = options.dir + '/app.json';
+const generateJson = (root, name) => {
+	const filename = root + '/app.json';
 	const content = fs.readFileSync(filename, 'utf8');
 	const json = JSON.parse(content);
-	json.pages.push(`pages/${options.name}/${options.name}`);
+	json.pages.push(`pages/${name}/${name}`);
 	const result = JSON.stringify(json, null, 2);
 	fs.writeFileSync(filename, result);
 };
 
 export const createPage = (options) => {
+	const cwd = process.cwd();
+
 	if (typeof options !== 'object') {
 		throw new Error('options must be a object.');
 	}
 
 	options = Object.assign({
-		dir: path.resolve(__dirname, './src/'),
+		dir: cwd,
 		name: 'index',
 		json: false,
 		styleType: 'wxss'
 	}, options);
 
+	const { dir, name } = options;
+	const root = path.isAbsolute(dir) ? dir : path.resolve(cwd, dir);
 
-	const pageRoot = path.resolve(options.dir, './pages/' + options.name);
+	const pageRoot = path.resolve(options.root, 'pages', name);
 
 	if (fs.existsSync(pageRoot)) {
 		throw new Error('file already exited');
@@ -44,14 +48,13 @@ export const createPage = (options) => {
 
 	filesType.forEach((type) => {
 		if (!type) { return; }
-		const filePath = path.resolve(pageRoot, options.name + `.${type}`);
+		const filePath = path.resolve(pageRoot, name + `.${type}`);
 		const { default: template } = require(`./templates/${type}`);
 		fs.writeFileSync(filePath, template(options));
 		console.log('file created:', filePath);
 	});
-	generateJson(options);
+	generateJson(root, name);
 };
-
 
 inquirer.prompt([
 	{
@@ -76,15 +79,11 @@ inquirer.prompt([
 ])
 .then((options) => {
 	yargs.alias('d', 'dir');
-
-	const cwd = process.cwd();
-	const rootPath = argv.dir;
-
 	const { name, styleType, isNeedConfig } = options;
 	createPage({
 		name,
 		styleType,
-		dir: path.resolve(cwd, rootPath),
+		dir: argv.dir,
 		json: isNeedConfig
 	});
 })
