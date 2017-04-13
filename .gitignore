@@ -10,3 +10,4 @@ Thumbs.db
 *.log
 node_modules
 lib
+test/src/pages
