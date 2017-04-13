@@ -1,10 +1,16 @@
 import { spawn } from 'child_process';
 import { resolve } from 'path';
 import { bin } from '../package.json';
+import fs from 'fs';
+
+//测试用例完善
 
 const delay = (t = 1) => new Promise((done) => setTimeout(done, t * 1000));
 
 describe('test', async () => {
+	const filename = resolve('test/src/app.json');
+	let appJSON;
+
 	it('🌚 ', async () => {
 		const binFile = Object.keys(bin)[0];
 		const command = resolve(`bin/${binFile}`);
@@ -28,6 +34,14 @@ describe('test', async () => {
 		child.stdin.write('\n');
 
 		child.stdin.end();
+	});
+
+	beforeEach(() => {
+		appJSON = fs.readFileSync(filename, 'utf8');
+	});
+
+	afterEach(() => {
+		fs.writeFileSync(filename, appJSON);
 	});
 
 });
