@@ -1,4 +1,4 @@
-export default (options) => `.title {
-	font-size: 40rpx;
+export default options => `.container {
+	padding: 20rpx;
 }
 `;
