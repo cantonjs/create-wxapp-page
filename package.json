@@ -12,8 +12,8 @@
     "lib"
   ],
   "scripts": {
-    "start": "yarn test -- -w --watch-extensions js",
-    "test": "NODE_ENV=development mocha -t 10000 --compilers js:babel-core/register test",
+    "start": "yarn test -- --watchAll",
+    "test": "NODE_ENV=development jest",
     "cli": "NODE_ENV=development ./bin/create-wxapp-page",
     "prebuild": "rimraf lib",
     "build": "babel src -d lib",
@@ -36,10 +36,18 @@
     "mkdirp": "^0.5.1",
     "yargs": "^7.0.2"
   },
+  "jest": {
+    "modulePathIgnorePatterns": [
+      "node_modules",
+      "lib",
+      "test/src"
+    ]
+  },
   "devDependencies": {
     "babel-cli": "^6.11.4",
     "babel-core": "^6.13.2",
     "babel-eslint": "^6.1.2",
+    "babel-jest": "^19.0.0",
     "babel-plugin-transform-es2015-destructuring": "^6.19.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.18.0",
     "babel-plugin-transform-es2015-parameters": "^6.18.0",
@@ -50,7 +58,8 @@
     "eslint": "^2.4.0",
     "eslint-plugin-babel": "^3.2.0",
     "eslint-plugin-import": "^2.2.0",
-    "mocha": "^3.2.0",
+    "jest": "^19.0.2",
+    "kapok-js": "^0.2.0",
     "rimraf": "^2.5.4"
   }
 }

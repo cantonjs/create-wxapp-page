@@ -8,7 +8,13 @@ import yargs, { argv } from 'yargs';
 // import wxmlTemplate from './templates/wxml';
 // import styleTemplate from './templates/style';
 // import jsonTemplate from './templates/json';
+//
+//
 
+// 如何正确报错？
+
+const cwd = process.cwd();
+yargs.alias('d', 'dir');
 
 const generateJson = (root, name) => {
 	const filename = root + '/app.json';
@@ -20,7 +26,7 @@ const generateJson = (root, name) => {
 };
 
 export const createPage = (options) => {
-	const cwd = process.cwd();
+	// const cwd = process.cwd();
 
 	if (typeof options !== 'object') {
 		throw new Error('options must be a object.');
@@ -39,7 +45,7 @@ export const createPage = (options) => {
 	const pageRoot = path.resolve(root, 'pages', name);
 
 	if (fs.existsSync(pageRoot)) {
-		throw new Error('file already exited');
+		throw new Error('file already exited.');
 	}
 
 	mkdirp.sync(pageRoot);
@@ -53,10 +59,15 @@ export const createPage = (options) => {
 		fs.writeFileSync(filePath, template(options));
 		console.log('file created:', filePath);
 	});
+	console.log('files create complete');
 	generateJson(root, name);
 };
 
-//TODO: 优化配置，使命令行配置和问答配置融合，如果app.json不存在 直接报错
+const hasAppJsonFile = fs.existsSync(path.resolve(cwd, argv.dir, 'app.json'));
+if (!hasAppJsonFile) {
+	throw new Error('app.json does not exist.');
+}
+
 inquirer.prompt([
 	{
 		type: 'input',
@@ -79,7 +90,6 @@ inquirer.prompt([
 	}
 ])
 .then((options) => {
-	yargs.alias('d', 'dir');
 	const { name, styleType, isNeedConfig } = options;
 	createPage({
 		name,
