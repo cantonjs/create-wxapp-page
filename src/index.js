@@ -18,54 +18,54 @@ const defaultValue = {
 	style: 'wxss',
 };
 
-// const generateJson = (root, name) => {
-// 	const filename = root + '/app.json';
-// 	const content = fs.readFileSync(filename, 'utf8');
-// 	const json = JSON.parse(content);
-// 	json.pages.push(`pages/${name}/${name}`);
-// 	const result = JSON.stringify(json, null, 2);
-// 	fs.writeFileSync(filename, result);
-// };
-
-// export const createPage = (options) => {
-// 	// const cwd = process.cwd();
-
-// 	if (typeof options !== 'object') {
-// 		throw new Error('options must be a object.');
-// 	}
-
-// 	options = Object.assign(defaultValue, options);
-
-// 	const { dir, name } = options;
-// 	const root = path.isAbsolute(dir) ? dir : path.resolve(cwd, dir);
-
-// 	const pageRoot = path.resolve(root, 'pages', name);
-
-// 	if (fs.existsSync(pageRoot)) {
-// 		throw new Error('file already exited.');
-// 	}
-
-// 	mkdirp.sync(pageRoot);
-
-// 	const filesType = ['js', 'wxml', options.style, options.isNeedConfig ? 'json' : null];
-
-// 	filesType.forEach((type) => {
-// 		if (!type) { return; }
-// 		const filePath = path.resolve(pageRoot, name + `.${type}`);
-// 		const { default: template } = require(`./templates/${type}`);
-// 		fs.writeFileSync(filePath, template(options));
-// 		console.log('file created:', filePath);
-// 	});
-// 	console.log('files create complete');
-// 	generateJson(root, name);
-// };
-
 // const hasAppJsonFile = fs.existsSync(path.resolve(cwd, argv.dir, 'app.json'));
 // if (!hasAppJsonFile) {
 // 	throw new Error('app.json does not exist.');
 // }
 
-const main = async () => {
+const generateJson = (root, name) => {
+	const filename = root + '/app.json';
+	const content = fs.readFileSync(filename, 'utf8');
+	const json = JSON.parse(content);
+	json.pages.push(`pages/${name}/${name}`);
+	const result = JSON.stringify(json, null, 2);
+	fs.writeFileSync(filename, result);
+};
+
+export const createPage = (options) => {
+	// const cwd = process.cwd();
+
+	if (typeof options !== 'object') {
+		throw new Error('options must be a object.');
+	}
+
+	options = Object.assign(defaultValue, options);
+
+	const { dir, name } = options;
+	const root = path.isAbsolute(dir) ? dir : path.resolve(cwd, dir);
+
+	const pageRoot = path.resolve(root, 'pages', name);
+
+	if (fs.existsSync(pageRoot)) {
+		throw new Error('file already exited.');
+	}
+
+	mkdirp.sync(pageRoot);
+
+	const filesType = ['js', 'wxml', options.style, options.isNeedConfig ? 'json' : null];
+
+	filesType.forEach((type) => {
+		if (!type) { return; }
+		const filePath = path.resolve(pageRoot, name + `.${type}`);
+		const { default: template } = require(`./templates/${type}`);
+		fs.writeFileSync(filePath, template(options));
+		console.log('file created:', filePath);
+	});
+	console.log('files create complete');
+	generateJson(root, name);
+};
+
+const app = async () => {
 	// eslint-disable-next-line
 	yargs
 		.options({
@@ -158,7 +158,6 @@ const main = async () => {
 		if (activePromptItem.length) {
 			const answers = await inquirer.prompt(activePromptItem);
 
-			console.log('answers: ', answers);
 			Object.keys(answers).forEach((key) => {
 				options[key] = answers[key];
 			});
@@ -167,7 +166,7 @@ const main = async () => {
 	console.log('options: ', options);
 
 	//TODO update cratePage to fix new options
-	// createPage(options);
+	createPage(options);
 };
 
-main();
+app();
