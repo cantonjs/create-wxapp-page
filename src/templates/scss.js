@@ -1,4 +1,4 @@
-export default options => `.container {
+export default () => `.container {
 	padding: 20rpx;
 }
 `;

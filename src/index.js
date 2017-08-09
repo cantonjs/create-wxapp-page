@@ -5,9 +5,6 @@ import inquirer from 'inquirer';
 import yargs, { argv } from 'yargs';
 import { version } from '../package.json';
 
-// 如何正确报错？
-//
-//
 const cwd = process.cwd();
 
 const defaultValue = {
@@ -18,10 +15,16 @@ const defaultValue = {
 	style: 'wxss',
 };
 
-// const hasAppJsonFile = fs.existsSync(path.resolve(cwd, argv.dir, 'app.json'));
-// if (!hasAppJsonFile) {
-// 	throw new Error('app.json does not exist.');
-// }
+const formatTemplate = (template, options, type) => {
+	let templateStr = template(options);
+	const { indent } = options;
+	if (indent !== defaultValue.indent && type !== 'json') {
+		const intNum = ~~indent;
+		const spaces = new Array(intNum).fill(' ').join('');
+		templateStr = templateStr.replace(/\t/g, spaces);
+	}
+	return templateStr;
+};
 
 const generateJson = (root, name) => {
 	const filename = root + '/app.json';
@@ -39,10 +42,21 @@ export const createPage = (options) => {
 		throw new Error('options must be a object.');
 	}
 
-	options = Object.assign(defaultValue, options);
+	options = Object.assign({
+		name: 'index',
+		indent: 'tab',
+		dir: cwd,
+		isNeedConfig: false,
+		style: 'wxss',
+	}, options);
 
 	const { dir, name } = options;
+
 	const root = path.isAbsolute(dir) ? dir : path.resolve(cwd, dir);
+	const hasAppJsonFile = fs.existsSync(path.resolve(root, 'app.json'));
+	if (!hasAppJsonFile) {
+		throw new Error('app.json does not exist.');
+	}
 
 	const pageRoot = path.resolve(root, 'pages', name);
 
@@ -58,7 +72,8 @@ export const createPage = (options) => {
 		if (!type) { return; }
 		const filePath = path.resolve(pageRoot, name + `.${type}`);
 		const { default: template } = require(`./templates/${type}`);
-		fs.writeFileSync(filePath, template(options));
+		const formatedTemplate = formatTemplate(template, options, type);
+		fs.writeFileSync(filePath, formatedTemplate);
 		console.log('file created:', filePath);
 	});
 	console.log('files create complete');
@@ -163,9 +178,6 @@ const app = async () => {
 			});
 		}
 	}
-	console.log('options: ', options);
-
-	//TODO update cratePage to fix new options
 	createPage(options);
 };
 
