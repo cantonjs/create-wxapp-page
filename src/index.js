@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import mkdirp from 'mkdirp';
 import inquirer from 'inquirer';
-import yargs, { argv } from 'yargs';
+import yargs from 'yargs';
 import { version } from '../package.json';
 
 const cwd = process.cwd();
@@ -11,7 +11,7 @@ const defaultValue = {
 	name: 'index',
 	indent: 'tab',
 	dir: cwd,
-	isNeedConfig: false,
+	json: false,
 	style: 'wxss',
 };
 
@@ -26,12 +26,13 @@ const formatTemplate = (template, options, type) => {
 	return templateStr;
 };
 
-const generateJson = (root, name) => {
+const generateJson = (root, name, indent) => {
 	const filename = root + '/app.json';
 	const content = fs.readFileSync(filename, 'utf8');
 	const json = JSON.parse(content);
 	json.pages.push(`pages/${name}/${name}`);
-	const result = JSON.stringify(json, null, 2);
+	const formatedIndent = indent === 'tab' ? '\t' : ~~indent;
+	const result = JSON.stringify(json, null, formatedIndent);
 	fs.writeFileSync(filename, result);
 };
 
@@ -46,11 +47,11 @@ export const createPage = (options) => {
 		name: 'index',
 		indent: 'tab',
 		dir: cwd,
-		isNeedConfig: false,
+		json: false,
 		style: 'wxss',
 	}, options);
 
-	const { dir, name } = options;
+	const { dir, name, indent } = options;
 
 	const root = path.isAbsolute(dir) ? dir : path.resolve(cwd, dir);
 	const hasAppJsonFile = fs.existsSync(path.resolve(root, 'app.json'));
@@ -66,7 +67,7 @@ export const createPage = (options) => {
 
 	mkdirp.sync(pageRoot);
 
-	const filesType = ['js', 'wxml', options.style, options.isNeedConfig ? 'json' : null];
+	const filesType = ['js', 'wxml', options.style, options.json ? 'json' : null];
 
 	filesType.forEach((type) => {
 		if (!type) { return; }
@@ -77,12 +78,12 @@ export const createPage = (options) => {
 		console.log('file created:', filePath);
 	});
 	console.log('files create complete');
-	generateJson(root, name);
+	generateJson(root, name, indent);
 };
 
 const app = async () => {
 	// eslint-disable-next-line
-	yargs
+	const argv = yargs
 		.options({
 			i: {
 				alias: 'indent',
@@ -98,8 +99,8 @@ const app = async () => {
 				describe: '生成页面的名称',
 				type: 'string',
 			},
-			c: {
-				alias: 'isNeedConfig',
+			j: {
+				alias: 'json',
 				describe: '是否需要生成配置文件(.json)',
 				type: 'boolean',
 			},
@@ -111,7 +112,7 @@ const app = async () => {
 			},
 			y: {
 				alias: 'yes',
-				describe: '使用默认生成相关文件',
+				describe: '使用默认值生成相关文件',
 				type: 'boolean',
 			},
 		})
@@ -140,11 +141,11 @@ const app = async () => {
 			type: 'input',
 			name: 'name',
 		},
-		isNeedConfig: {
+		json: {
 			message: '是否需要生成配置文件(.json)',
-			default: defaultValue.isNeedConfig,
+			default: defaultValue.json,
 			type: 'confirm',
-			name: 'isNeedConfig',
+			name: 'json',
 		},
 		style: {
 			type: 'list',
@@ -154,12 +155,12 @@ const app = async () => {
 		},
 	};
 
-	const { dir, name, indent, isNeedConfig, style, yes } = argv;
+	const { dir, name, indent, json, style, yes } = argv;
 	const options = {
 		dir: dir || defaultValue.dir,
 		name: name || defaultValue.name,
 		indent: indent || defaultValue.indent,
-		isNeedConfig: isNeedConfig || defaultValue.isNeedConfig,
+		json: json || defaultValue.json,
 		style: style || defaultValue.style,
 	};
 
@@ -168,7 +169,7 @@ const app = async () => {
 		!dir && activePromptItem.push(promptItem.dir);
 		!name && activePromptItem.push(promptItem.name);
 		!indent && activePromptItem.push(promptItem.indent);
-		!isNeedConfig && activePromptItem.push(promptItem.isNeedConfig);
+		!json && activePromptItem.push(promptItem.json);
 		!style && activePromptItem.push(promptItem.style);
 		if (activePromptItem.length) {
 			const answers = await inquirer.prompt(activePromptItem);
