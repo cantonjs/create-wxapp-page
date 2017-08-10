@@ -12,9 +12,9 @@
     "lib"
   ],
   "scripts": {
-    "start": "yarn test -- --watchAll --runInBand",
-    "test": "NODE_ENV=development jest",
-    "cli": "NODE_ENV=development ./bin/create-wxapp-page",
+    "start": "yarn test -- --watchAll",
+    "test": "CWP_ENV=development jest --runInBand",
+    "cli": "CWP_ENV=development ./bin/create-wxapp-page",
     "prebuild": "rimraf lib",
     "build": "babel src -d lib",
     "preversion": "yarn test && yarn build"
@@ -22,7 +22,7 @@
   "author": "JC",
   "repository": "cantonjs/create-wxapp-page",
   "engines": {
-    "node": ">=6.0.0"
+    "node": ">=4.2"
   },
   "keywords": [
     "cli",
@@ -52,6 +52,7 @@
     "babel-plugin-transform-es2015-destructuring": "^6.19.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.18.0",
     "babel-plugin-transform-es2015-parameters": "^6.18.0",
+    "babel-plugin-transform-es2015-spread": "^6.22.0",
     "babel-polyfill": "^6.13.0",
     "babel-preset-stage-0": "^6.5.0",
     "babel-register": "^6.11.6",
