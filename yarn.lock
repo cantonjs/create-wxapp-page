@@ -924,14 +924,6 @@ create-error-class@^3.0.0:
   dependencies:
     capture-stack-trace "^1.0.0"
 
-create-wxapp-page@^0.0.5:
-  version "0.0.5"
-  resolved "http://registry.npm.taobao.org/create-wxapp-page/download/create-wxapp-page-0.0.5.tgz#e4ca8c08f3054c0704fd4a146634ecdd7e9ca56d"
-  dependencies:
-    inquirer "^3.0.6"
-    mkdirp "^0.5.1"
-    yargs "^7.0.2"
-
 cross-env@^4.0.0:
   version "4.0.0"
   resolved "http://registry.npm.taobao.org/cross-env/download/cross-env-4.0.0.tgz#16083862d08275a4628b0b243b121bedaa55dd80"

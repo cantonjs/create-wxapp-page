@@ -12,7 +12,7 @@
     "lib"
   ],
   "scripts": {
-    "start": "yarn test -- --watchAll",
+    "start": "yarn test -- --watchAll --runInBand",
     "test": "NODE_ENV=development jest",
     "cli": "NODE_ENV=development ./bin/create-wxapp-page",
     "prebuild": "rimraf lib",
@@ -32,7 +32,6 @@
   ],
   "licenses": "MIT",
   "dependencies": {
-    "create-wxapp-page": "^0.0.5",
     "inquirer": "^3.0.6",
     "mkdirp": "^0.5.1",
     "update-notifier": "^2.2.0",

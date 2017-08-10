@@ -5,7 +5,7 @@ import fs from 'fs';
 import Kapok from 'kapok-js';
 // import assert from 'assert';
 import rimraf from 'rimraf';
-
+import updateNotifier from 'update-notifier';
 
 describe('test', () => {
 	const appJsonPath = resolve('test/src/app.json');
