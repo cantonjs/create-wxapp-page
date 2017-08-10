@@ -5,7 +5,6 @@ import fs from 'fs';
 import Kapok from 'kapok-js';
 // import assert from 'assert';
 import rimraf from 'rimraf';
-import updateNotifier from 'update-notifier';
 
 describe('test', () => {
 	const appJsonPath = resolve('test/src/app.json');
@@ -20,7 +19,7 @@ describe('test', () => {
 		kapok = new Kapok(command, []);
 
 		await kapok
-			.assert('? 请输入生成的文件所放置的根目录 (/Users/JC/Documents/Git/create-wxapp-page)', {
+			.assert(`? 请输入生成的文件所放置的根目录 (${process.cwd()})`, {
 				action: () => {
 					kapok.write('test/src\n');
 				}
