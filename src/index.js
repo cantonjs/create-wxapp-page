@@ -3,7 +3,8 @@ import path from 'path';
 import mkdirp from 'mkdirp';
 import inquirer from 'inquirer';
 import yargs from 'yargs';
-import { version } from '../package.json';
+import pkg, { version } from '../package.json';
+import updateNotifier from 'update-notifier';
 
 const cwd = process.cwd();
 
@@ -183,3 +184,4 @@ const app = async () => {
 };
 
 app();
+updateNotifier({ pkg }).notify();
