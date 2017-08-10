@@ -59,7 +59,7 @@
     "eslint-plugin-babel": "^3.2.0",
     "eslint-plugin-import": "^2.2.0",
     "jest": "^19.0.2",
-    "kapok-js": "^0.2.0",
+    "kapok-js": "^0.7.2",
     "rimraf": "^2.5.4"
   }
 }
