@@ -16,10 +16,10 @@ const defaultValue = {
 	style: 'wxss',
 };
 
-const formatTemplate = (template, options, type) => {
+const formatTemplate = (template, options) => {
 	let templateStr = template(options);
 	const { indent } = options;
-	if (indent !== defaultValue.indent && type !== 'json') {
+	if (indent !== defaultValue.indent) {
 		const intNum = ~~indent;
 		const spaces = new Array(intNum).fill(' ').join('');
 		templateStr = templateStr.replace(/\t/g, spaces);
@@ -74,7 +74,7 @@ export const createPage = (options) => {
 		if (!type) { return; }
 		const filePath = path.resolve(pageRoot, name + `.${type}`);
 		const { default: template } = require(`./templates/${type}`);
-		const formatedTemplate = formatTemplate(template, options, type);
+		const formatedTemplate = formatTemplate(template, options);
 		fs.writeFileSync(filePath, formatedTemplate);
 		console.log('file created:', filePath);
 	});
