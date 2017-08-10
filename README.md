@@ -46,7 +46,7 @@ $ create-wxapp-page --name test
 ## 更新历史
 2017.8.10 
 - 增加可配置内容(indent，dir)
-- 增加命令行参数的功能
+- 增加命令行参数
 
 ## License
 
