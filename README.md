@@ -14,33 +14,34 @@ $ yarn add creat-wxapp-page
 
 ## 用法
 
-### 一、命令行参数
+#### 查看帮助
 ```bash
-$ create-wxapp-page --help //查看帮助
+$ create-wxapp-page --help
 ```
 
+
+#### 示例一
+（使用yes模式，没有配置的内容使用默认值进行配置）
 ```bash
 $ create-wxapp-page --name test --indent 2 --yes
+```
+
+#### 示例二
+（不使用yes模式，没有配置的内容，需要通过回答问题，进行配置）
+```bash
+$ create-wxapp-page --name test
+#回答问题
+#自动生成...
 ```
 
 #### 参数
 - dir: 文件路径
 - name: page的名称
 - style: 样式的格式，支持less, scss, wxss
-- isNeedConfig: 是否需要生成配置文件
+- json: 是否需要生成配置文件
 - indent: 缩进的方式，默认tab，支持数字
-- yes: 开启默认读取默认值的配置
-
-### 二、prompt
-```bash
-$ cd ./my-wxapp-project
-$ create-wxapp-page -d ./src/
-#回答问题
-#自动生成...
-```
-
-
-
+- yes: 使用默认值生成相关文件
+- help: 查看帮助
 
 ## 更新历史
 2017.8.10 
