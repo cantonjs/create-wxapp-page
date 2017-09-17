@@ -19,7 +19,7 @@ Page({
 	onShareAppMessage () {
 		return {
 			title: 'share title',
-			path: '/pages/${options.name}/${options.name}'
+			path: '/pages/${options.subpath}/${options.name}'
 		};
 	}
 });

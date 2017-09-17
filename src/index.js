@@ -27,11 +27,11 @@ const formatTemplate = (template, options) => {
 	return templateStr;
 };
 
-const generateJson = (root, name, indent) => {
+const generateJson = (root, subpath, name, indent) => {
 	const filename = root + '/app.json';
 	const content = fs.readFileSync(filename, 'utf8');
 	const json = JSON.parse(content);
-	json.pages.push(`pages/${name}/${name}`);
+	json.pages.push(`pages/${subpath}/${name}`);
 	const formatedIndent = indent === 'tab' ? '\t' : ~~indent;
 	const result = JSON.stringify(json, null, formatedIndent);
 	fs.writeFileSync(filename, result);
@@ -41,7 +41,7 @@ export const createPage = (options) => {
 	// const cwd = process.cwd();
 
 	if (typeof options !== 'object') {
-		throw new Error('options must be a object.');
+		throw new Error('参数必须是一个JSON对象。');
 	}
 
 	options = Object.assign({
@@ -52,34 +52,39 @@ export const createPage = (options) => {
 		style: 'wxss',
 	}, options);
 
-	const { dir, name, indent } = options;
+	const { dir, subpath, name, indent } = options;
 
 	const root = path.isAbsolute(dir) ? dir : path.resolve(cwd, dir);
 	const hasAppJsonFile = fs.existsSync(path.resolve(root, 'app.json'));
 	if (!hasAppJsonFile) {
-		throw new Error('app.json does not exist.');
+		throw new Error('app.json 不存在。');
 	}
 
-	const pageRoot = path.resolve(root, 'pages', name);
+	const pageRoot = path.resolve(root, 'pages', subpath);
 
-	if (fs.existsSync(pageRoot)) {
-		throw new Error('file already exited.');
+	if (!fs.existsSync(pageRoot)) {
+		mkdirp.sync(pageRoot);
 	}
-
-	mkdirp.sync(pageRoot);
 
 	const filesType = ['js', 'wxml', options.style, options.json ? 'json' : null];
 
-	filesType.forEach((type) => {
-		if (!type) { return; }
+	filesType.every((type) => {
+		if (!type) { return true; }
 		const filePath = path.resolve(pageRoot, name + `.${type}`);
+
+		if (fs.existsSync(filePath)) {
+			console.log('文件已存在！');
+			return false;
+		}
+
 		const { default: template } = require(`./templates/${type}`);
 		const formatedTemplate = formatTemplate(template, options);
 		fs.writeFileSync(filePath, formatedTemplate);
-		console.log('file created:', filePath);
+		console.log('%s 创建成功；', filePath);
+		return true;
 	});
-	console.log('files create complete');
-	generateJson(root, name, indent);
+	console.log('创建结束。');
+	generateJson(root, subpath, name, indent);
 };
 
 const app = async () => {
@@ -94,6 +99,11 @@ const app = async () => {
 				alias: 'dir',
 				describe: '生成的文件所放置的根目录',
 				type: 'string',
+			},
+			p: {
+				alias: 'subpath',
+				describe: '生成的文件所放置的子目录',
+				type: 'string'
 			},
 			n: {
 				alias: 'name',
@@ -136,6 +146,14 @@ const app = async () => {
 			type: 'input',
 			name: 'indent',
 		},
+		subpath: {
+			message: '请输入生成的文件所放置的子目录',
+			default: function (inputs) {
+				return inputs.name;
+			},
+			type: 'input',
+			name: 'subpath'
+		},
 		name: {
 			message: '请输入页面名称',
 			default: defaultValue.name,
@@ -156,9 +174,10 @@ const app = async () => {
 		},
 	};
 
-	const { dir, name, indent, json, style, yes } = argv;
+	const { dir, subpath, name, indent, json, style, yes } = argv;
 	const options = {
 		dir: dir || defaultValue.dir,
+		subpath: subpath,
 		name: name || defaultValue.name,
 		indent: indent || defaultValue.indent,
 		json: json || defaultValue.json,
@@ -169,6 +188,7 @@ const app = async () => {
 		const activePromptItem = [];
 		!dir && activePromptItem.push(promptItem.dir);
 		!name && activePromptItem.push(promptItem.name);
+		!subpath && activePromptItem.push(promptItem.subpath);
 		!indent && activePromptItem.push(promptItem.indent);
 		!json && activePromptItem.push(promptItem.json);
 		!style && activePromptItem.push(promptItem.style);
