@@ -1,4 +1,4 @@
-export default (options) => `<view class="container">
+export default (options) => `<view class="page-${options.name}">
 	<text>{{ title }}</text>
 </view>
 `;
