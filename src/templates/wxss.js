@@ -1,4 +1,3 @@
-export default () => `.container {
-	padding: 20rpx;
+export default (options) => `.page-${options.name} {
 }
 `;
