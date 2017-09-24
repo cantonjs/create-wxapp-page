@@ -27,11 +27,25 @@ const formatTemplate = (template, options) => {
     return templateStr;
 };
 
-const generateJson = (root, subpath, name, indent) => {
+const parser = (name) => {
+    name = name.split(/[\\\/]/);
+    const len = name.length;
+    if (len === 1) name.push(name[0]);
+    if (!name[len - 1]) name[len - 1] = name[len - 2];
+    if (name[0]) name.unshift('pages');
+    else name.shift();
+
+    return {
+        name: name.pop(),
+        path: name.join('/')
+    };
+}
+
+const addRoute = (root, path, name, indent) => {
     const filename = root + '/app.json';
     const content = fs.readFileSync(filename, 'utf8');
     const json = JSON.parse(content);
-    json.pages.push(`pages/${subpath}/${name}`);
+    json.pages.push([path, name].filter(x => x).join('/'));
     const formatedIndent = indent === 'tab' ? '\t' : ~~indent;
     const result = JSON.stringify(json, null, formatedIndent);
     fs.writeFileSync(filename, result);
@@ -52,15 +66,16 @@ export const createPage = (options) => {
         style: 'wxss',
     }, options);
 
-    const { dir, subpath, name, indent } = options;
+    const { dir, name, indent } = options;
 
     const root = path.isAbsolute(dir) ? dir : path.resolve(cwd, dir);
+    const route = parser(name);
     const hasAppJsonFile = fs.existsSync(path.resolve(root, 'app.json'));
     if (!hasAppJsonFile) {
         throw new Error('app.json 不存在。');
     }
 
-    const pageRoot = path.resolve(root, 'pages', subpath);
+    const pageRoot = path.resolve(root, route.path);
 
     if (!fs.existsSync(pageRoot)) {
         mkdirp.sync(pageRoot);
@@ -68,9 +83,9 @@ export const createPage = (options) => {
 
     const filesType = ['wxml', 'js', options.style, options.json ? 'json' : null];
 
-    filesType.every((type) => {
+    const created = filesType.every((type) => {
         if (!type) { return true; }
-        const filePath = path.resolve(pageRoot, name + `.${type}`);
+        const filePath = path.resolve(pageRoot, `${route.name}.${type}`);
 
         if (fs.existsSync(filePath)) {
             console.log('文件已存在！');
@@ -82,13 +97,15 @@ export const createPage = (options) => {
         }
 
         const { default: template } = require(`./templates/${type}`);
-        const formatedTemplate = formatTemplate(template, options);
+        const formatedTemplate = formatTemplate(template, Object.assign(options, route));
         fs.writeFileSync(filePath, formatedTemplate);
         console.log('%s 创建成功；', filePath);
         return true;
     });
-    console.log('创建结束。');
-    generateJson(root, subpath, name, indent);
+    if (created) {
+        addRoute(root, route.path, route.name, indent);
+        console.log('创建结束。');
+    }
 };
 
 const app = async () => {
@@ -104,14 +121,9 @@ const app = async () => {
                 describe: '生成的文件所放置的根目录',
                 type: 'string',
             },
-            p: {
-                alias: 'subpath',
-                describe: '生成的文件所放置的子目录',
-                type: 'string'
-            },
             n: {
                 alias: 'name',
-                describe: '生成页面的名称',
+                describe: '生成页面的名称(可包含路径)',
                 type: 'string',
             },
             j: {
@@ -150,16 +162,8 @@ const app = async () => {
             type: 'input',
             name: 'indent',
         },
-        subpath: {
-            message: '请输入生成的文件所放置的子目录',
-            default: function (inputs) {
-                return inputs.name;
-            },
-            type: 'input',
-            name: 'subpath'
-        },
         name: {
-            message: '请输入页面名称',
+            message: '请输入页面名称(可包含路径)',
             default: defaultValue.name,
             type: 'input',
             name: 'name',
@@ -178,10 +182,9 @@ const app = async () => {
         },
     };
 
-    const { dir, subpath, name, indent, json, style, yes } = argv;
+    const { dir, name, indent, json, style, yes } = argv;
     const options = {
         dir: dir || defaultValue.dir,
-        subpath: subpath,
         name: name || defaultValue.name,
         indent: indent || defaultValue.indent,
         json: json || defaultValue.json,
@@ -192,7 +195,6 @@ const app = async () => {
         const activePromptItem = [];
         !dir && activePromptItem.push(promptItem.dir);
         !name && activePromptItem.push(promptItem.name);
-        !subpath && activePromptItem.push(promptItem.subpath);
         !indent && activePromptItem.push(promptItem.indent);
         !json && activePromptItem.push(promptItem.json);
         !style && activePromptItem.push(promptItem.style);
