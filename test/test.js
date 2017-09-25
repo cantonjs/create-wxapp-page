@@ -25,12 +25,12 @@ describe('test', () => {
 				}
 			})
 			.ignoreUntil('? 请输入生成的文件所放置的根目录 test/src')
-			.assert('? 请输入页面名称 (index)', {
+			.assert('? 请输入页面名称(可包含路径) (index)', {
 				action: () => {
 					kapok.write('test\n');
 				}
 			})
-			.ignoreUntil('? 请输入页面名称 test')
+			.ignoreUntil('? 生成页面的名称(可包含路径) test')
 			.assert('? 请输入文件缩进的方式 (tab)', {
 				action: () => {
 					kapok.write('\n');
@@ -50,7 +50,7 @@ describe('test', () => {
 			})
 			// .ignoreUntil('请选择样式文件的类型 wxss')
 			// .ignoreUntil(4)
-			.assertUntil(/files create complete/)
+			.assertUntil(/创建结束/)
 			.done();
 	});
 
@@ -64,7 +64,7 @@ describe('test', () => {
 		);
 
 		await kapok
-			.assertUntil(/files create complete/)
+			.assertUntil(/创建结束/)
 			.done();
 	});
 
