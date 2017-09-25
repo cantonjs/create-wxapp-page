@@ -1,5 +1,7 @@
 # create-wxapp-page
 
+[![Build Status](https://travis-ci.org/cantonjs/create-wxapp-page.svg?branch=master)](https://travis-ci.org/cantonjs/create-wxapp-page)
+
 ## 功能
 
 - 自动化生成微信小程序页面，样式支持less, scss, wxss
