@@ -36,7 +36,7 @@ $ create-wxapp-page --name test
 
 #### 参数
 - dir: 文件路径
-- name: page的名称，支持带相对/绝对路径(`/path/my-page`, `path/my-page`, `your/path/` `my-page`)
+- name: page的名称，支持带相对/绝对路径(`/path/my-page`, `path/my-page`, `your/path/`, `my-page`)
 - style: 样式的格式，支持less, scss, wxss
 - json: 是否需要生成配置文件
 - indent: 缩进的方式，默认tab，支持数字
@@ -47,7 +47,7 @@ $ create-wxapp-page --name test
 2017.9.24
 - name支持使用相对/绝对路径
 - 样式统一用wxss单个模板处理
-2017.8.10 
+2017.8.10
 - 增加可配置内容(indent，dir)
 - 增加命令行参数
 
