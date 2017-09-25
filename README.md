@@ -47,6 +47,7 @@ $ create-wxapp-page --name test
 2017.9.24
 - name支持使用相对/绝对路径
 - 样式统一用wxss单个模板处理
+
 2017.8.10
 - 增加可配置内容(indent，dir)
 - 增加命令行参数
