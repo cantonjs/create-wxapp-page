@@ -30,7 +30,7 @@ describe('test', () => {
 					kapok.write('test\n');
 				}
 			})
-			.ignoreUntil('? 生成页面的名称(可包含路径) test')
+			.ignoreUntil('? 请输入页面名称(可包含路径) test')
 			.assert('? 请输入文件缩进的方式 (tab)', {
 				action: () => {
 					kapok.write('\n');
