@@ -133,8 +133,7 @@ const app = async () => {
             },
             s: {
                 alias: 'style',
-                describe: '样式文件的类型',
-                choices: ['wxss', 'scss', 'less'],
+                describe: '样式文件的类型(如 wxss、scss、less)',
                 type: 'string',
             },
             y: {
@@ -175,9 +174,9 @@ const app = async () => {
             name: 'json',
         },
         style: {
-            type: 'list',
-            message: '请选择样式文件的类型',
-            choices: ['wxss', 'scss', 'less'],
+            message: '请选择样式文件的类型(如 wxss、scss、less)',
+            default: defaultValue.style,
+            type: 'input',
             name: 'style',
         },
     };
