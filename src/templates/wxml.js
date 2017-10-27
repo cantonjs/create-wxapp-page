@@ -1,4 +1,4 @@
-export default (options) => `<view class="page-${options.name}">
+export default ({ basename }) => `<view class="page-${basename}">
 	<text>{{ title }}</text>
 </view>
 `;

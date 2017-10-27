@@ -1,7 +1,7 @@
-export default (options) => `{
+export default ({ basename }) => `{
 	"navigationBarBackgroundColor": "#ffffff",
 	"navigationBarTextStyle": "black",
-	"navigationBarTitleText": "${options.name}",
+	"navigationBarTitleText": "${basename}",
 	"backgroundColor": "#000000",
 	"backgroundTextStyle": "light",
 	"enablePullDownRefresh": false

@@ -1,4 +1,4 @@
-export default (options) => `.page-${options.name} {
+export default ({ basename }) => `.page-${basename} {
 	padding: 20rpx;
 }
 `;
