@@ -157,18 +157,18 @@ const app = async () => {
 			},
 		},
 		{
-			message: '请输入文件缩进的方式',
-			default: defaultValue.indent,
-			type: 'input',
-			name: 'indent',
-			when: !options.indent,
-		},
-		{
 			message: '请输入页面名称 (可包含路径)',
 			default: defaultValue.name,
 			type: 'input',
 			name: 'name',
 			when: !options.name,
+		},
+		{
+			message: '请输入文件缩进的方式',
+			default: defaultValue.indent,
+			type: 'input',
+			name: 'indent',
+			when: !options.indent,
 		},
 		{
 			message: '是否需要生成配置文件 (.json)',

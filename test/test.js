@@ -19,18 +19,18 @@ describe('test', () => {
 		kapok = new Kapok(command, []);
 
 		await kapok
-			.assert(`? 请输入生成的文件所放置的根目录 (${process.cwd()})`, {
+			.assert(`? 请输入小程序源代码根目录 (app.json 所在目录) (${process.cwd()})`, {
 				action: () => {
 					kapok.write('test/src\n');
 				}
 			})
 			.ignoreUntil('? 请输入生成的文件所放置的根目录 test/src')
-			.assert('? 请输入页面名称(可包含路径) (index)', {
+			.assert('? 请输入页面名称 (可包含路径) (index)', {
 				action: () => {
 					kapok.write('test\n');
 				}
 			})
-			.ignoreUntil('? 请输入页面名称(可包含路径) test')
+			.ignoreUntil('? 请输入页面名称 (可包含路径) test')
 			.assert('? 请输入文件缩进的方式 (tab)', {
 				action: () => {
 					kapok.write('\n');
@@ -54,7 +54,7 @@ describe('test', () => {
 			.done();
 	});
 
-	it.only('Create files with yes mode', async () => {
+	it('Create files with yes mode', async () => {
 		const binFile = Object.keys(bin)[0];
 		const command = resolve(`bin/${binFile}`);
 		kapok = new Kapok(
