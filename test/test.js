@@ -54,7 +54,7 @@ describe('test', () => {
 			.done();
 	});
 
-	it('Create files with yes mode', async () => {
+	it.only('Create files with yes mode', async () => {
 		const binFile = Object.keys(bin)[0];
 		const command = resolve(`bin/${binFile}`);
 		kapok = new Kapok(

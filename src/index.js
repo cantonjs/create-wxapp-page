@@ -202,7 +202,7 @@ const app = async () => {
 	]);
 
 	if (argv.yes) {
-		Object.assign(argv, defaultValue);
+		Object.assign({}, defaultValue, argv);
 	}
 	else {
 		const promptItems = createPromptItems(argv);
