@@ -24,7 +24,7 @@ describe('test', () => {
 					kapok.write('test/src\n');
 				}
 			})
-			.ignoreUntil('? 请输入生成的文件所放置的根目录 test/src')
+			.ignoreUntil('? 请输入小程序源代码根目录 (app.json 所在目录) test/src')
 			.assert('? 请输入页面名称 (可包含路径) (index)', {
 				action: () => {
 					kapok.write('test\n');
@@ -37,12 +37,12 @@ describe('test', () => {
 				}
 			})
 			.ignoreUntil('? 请输入文件缩进的方式 tab')
-			.assert('? 是否需要生成配置文件(.json) (y/N)', {
+			.assert('? 是否需要生成配置文件 (.json) (y/N)', {
 				action: () => {
 					kapok.write('y\n');
 				}
 			})
-			.ignoreUntil('? 是否需要生成配置文件(.json) Yes')
+			.ignoreUntil('? 是否需要生成配置文件 (.json) Yes')
 			.assert('? 请选择样式文件的类型 (Use arrow keys)', {
 				action: () => {
 					kapok.write('\n');
