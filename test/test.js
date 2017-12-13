@@ -20,7 +20,7 @@ describe('init template', () => {
 	});
 });
 
-describe.only('show template dir', () => {
+describe('show template dir', () => {
 	it('create component with yes mode', async () => {
 		const binFile = Object.keys(bin)[0];
 		const command = resolve(`bin/${binFile}`);
@@ -124,12 +124,12 @@ describe('test create page', () => {
 		}
 	});
 
-	// afterEach((done) => {
-	// 	if (hasAppJsonFile) {
-	// 		fs.writeFileSync(appJsonPath, appJSON);
-	// 	}
-	// 	kapok.exit(done);
-	// });
+	afterEach((done) => {
+		if (hasAppJsonFile) {
+			fs.writeFileSync(appJsonPath, appJSON);
+		}
+		kapok.exit(done);
+	});
 
 });
 

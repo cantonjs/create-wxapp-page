@@ -1,5 +1,4 @@
 import yargs from 'yargs';
-import fs from 'fs';
 import { createBuilder, createHandler } from './create';
 import pkg, { version } from '../package.json';
 import updateNotifier from 'update-notifier';
