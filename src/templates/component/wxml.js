@@ -1,1 +1,0 @@
-<view class="container">Page <%= basename %></view>

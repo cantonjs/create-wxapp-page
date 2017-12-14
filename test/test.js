@@ -31,7 +31,7 @@ describe('show template dir', () => {
 		);
 
 		await kapok
-			.assertUntil(/.config/)
+			.assertUntil(/.config\/create-wxapp-page/)
 			.done();
 	});
 });
