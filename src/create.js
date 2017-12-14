@@ -3,7 +3,7 @@ import { resolve, join, parse, isAbsolute, sep } from 'path';
 import mkdirp from 'mkdirp';
 import inquirer from 'inquirer';
 import { template } from 'lodash';
-import { dir as templatePath } from './config';
+import { dir as templatePath, init } from './config';
 
 const cwd = process.cwd();
 const pageTemplatePath = join(templatePath, 'page');
@@ -106,7 +106,7 @@ const create = (options) => {
 		const notStyleFiles = ['js', 'wxml', 'json'];
 		const templateExt = notStyleFiles.includes(fileType) ? fileType : 'wxss';
 		const templatePath = type === 'page' ? pageTemplatePath : componentTemplatePath;
-		const templateFile = fs.readFileSync(`${templatePath}/${templateExt}.js`, 'utf8');
+		const templateFile = fs.readFileSync(`${templatePath}/template.${templateExt}`, 'utf8');
 		const content = formatTemplate(templateFile, pathname, basename, indent);
 		fs.writeFileSync(filePath, content);
 		console.log(`${filePath} 创建成功；`);
@@ -241,6 +241,10 @@ export const createBuilder = (yargs) => {
 };
 
 export const createHandler = async (argv) => {
+	if (!fs.existsSync(templatePath)) {
+		init();
+	}
+
 	if (argv.yes) {
 		Object.assign({}, defaultValue, argv);
 	}
