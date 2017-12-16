@@ -7,6 +7,7 @@
 - 自动化生成微信小程序页面，样式支持自定义
 - 自动更新`app.json`,添加生成页面
 - [NEW]自动化生成微信小程序组件，样式支持自定义
+- [NEW]支持自定义模板
 
 ## 安装
 
@@ -17,12 +18,23 @@ $ yarn add creat-wxapp-page
 
 ## 用法
 
-#### 查看帮助
+### 查看帮助
 ```bash
 $ create-wxapp-page --help
 ```
 
+### 初始化模板
+```bash
+$ create-wxapp-page init
+```
 
+### 查看模板位置
+```bash
+$ create-wxapp-page dir
+```
+
+
+### 创建页面
 #### 示例一
 （使用yes模式，没有配置的内容使用默认值进行配置）
 ```bash
@@ -40,6 +52,7 @@ $ create-wxapp-page --name test
 #### 参数
 - dir: 文件路径
 - name: page的名称，支持带相对/绝对路径(`/path/my-page`, `path/my-page`, `your/path/`, `my-page`)
+- type: 创建的页面类型，page，component可选，默认page
 - style: 样式文件后缀名，支持 less, scss, wxss 或自定义
 - json: 是否需要生成配置文件
 - indent: 缩进的方式，默认tab，支持数字
@@ -47,7 +60,7 @@ $ create-wxapp-page --name test
 - help: 查看帮助
 
 ## 更新历史
-2017.12.13
+2017.12.16
 - 支持自定义模板
 - 支持创建小程序组件
 
