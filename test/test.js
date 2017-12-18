@@ -4,38 +4,6 @@ import fs from 'fs';
 import Kapok from 'kapok-js';
 import rimraf from 'rimraf';
 
-describe('init template', () => {
-	it('create component with yes mode', async () => {
-		const binFile = Object.keys(bin)[0];
-		const command = resolve(`bin/${binFile}`);
-		const	kapok = new Kapok(
-			command,
-			['init'],
-			{ cwd: __dirname }
-		);
-
-		await kapok
-			.assertUntil(/Init Templates Success/)
-			.done();
-	});
-});
-
-describe('show template dir', () => {
-	it('create component with yes mode', async () => {
-		const binFile = Object.keys(bin)[0];
-		const command = resolve(`bin/${binFile}`);
-		const	kapok = new Kapok(
-			command,
-			['dir'],
-			{ cwd: __dirname }
-		);
-
-		await kapok
-			.assertUntil(/.config\/create-wxapp-page/)
-			.done();
-	});
-});
-
 describe('test create page', () => {
 	const appJsonPath = resolve('test/src/app.json');
 	const hasAppJsonFile = fs.existsSync(appJsonPath);
@@ -215,6 +183,38 @@ describe('test create component', () => {
 		}
 	});
 
+});
+
+describe('reset template', () => {
+	it('create component with yes mode', async () => {
+		const binFile = Object.keys(bin)[0];
+		const command = resolve(`bin/${binFile}`);
+		const	kapok = new Kapok(
+			command,
+			['reset'],
+			{ cwd: __dirname }
+		);
+
+		await kapok
+			.assertUntil(/Init Templates Success/)
+			.done();
+	});
+});
+
+describe('show template dir', () => {
+	it('create component with yes mode', async () => {
+		const binFile = Object.keys(bin)[0];
+		const command = resolve(`bin/${binFile}`);
+		const	kapok = new Kapok(
+			command,
+			['dir'],
+			{ cwd: __dirname }
+		);
+
+		await kapok
+			.assertUntil(/.config\/create-wxapp-page/)
+			.done();
+	});
 });
 
 

@@ -23,16 +23,16 @@ $ yarn add creat-wxapp-page
 $ create-wxapp-page --help
 ```
 
-### 初始化模板
+### 重置模板
 ```bash
-$ create-wxapp-page init
+$ create-wxapp-page reset
 ```
 
 ### 查看模板位置
 ```bash
 $ create-wxapp-page dir
 ```
-
+>打开模板所在位置，按照需要修改模板的文件内容并保存
 
 ### 创建页面
 #### 示例一

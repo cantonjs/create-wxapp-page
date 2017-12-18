@@ -13,7 +13,7 @@ const app = async () => {
 			handler: createHandler,
 		})
 		.command({
-			command: 'init',
+			command: 'reset',
 			handler: init,
 		})
 		.command({
