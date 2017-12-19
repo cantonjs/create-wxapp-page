@@ -36,6 +36,7 @@
     "inquirer": "^3.0.6",
     "lodash": "^4.17.4",
     "mkdirp": "^0.5.1",
+    "opn": "^5.1.0",
     "update-notifier": "^2.2.0",
     "xdg-basedir": "^3.0.0",
     "yargs": "^7.0.2"

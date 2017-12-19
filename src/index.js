@@ -3,6 +3,7 @@ import { createBuilder, createHandler } from './create';
 import pkg, { version } from '../package.json';
 import updateNotifier from 'update-notifier';
 import { dir, init } from './config';
+import opn from 'opn';
 
 const app = async () => {
 	// eslint-disable-next-line
@@ -19,6 +20,10 @@ const app = async () => {
 		.command({
 			command: 'dir',
 			handler: () => console.log(dir),
+		})
+		.command({
+			command: 'open',
+			handler: () => opn(dir),
 		})
 		.alias('h', 'help')
 		.alias('v', 'version')
