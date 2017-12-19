@@ -57,7 +57,11 @@ $ create-wxapp-page reset
 ```bash
 $ create-wxapp-page dir
 ```
->打开模板所在位置，按照需要修改模板的文件内容并保存
+
+### 打开模板目录
+```bash
+$ create-wxapp-page open
+```
 
 
 ## 自定义模版
