@@ -202,8 +202,7 @@ export const createBuilder = (yargs) => {
 		.options({
 			t: {
 				alias: 'type',
-				desc: '创建类型',
-				choices: ['page', 'component'],
+				desc: '创建类型(仅支持page或component)',
 				type: 'string'
 			},
 			i: {
