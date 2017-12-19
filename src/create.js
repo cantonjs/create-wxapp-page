@@ -201,41 +201,44 @@ const createPromptItems = (options) => ([
 
 export const createBuilder = (yargs) => {
 	yargs
+		.usage('\n create-wxapp-page [args] | create-wxapp-page create [args]')
 		.options({
 			t: {
 				alias: 'type',
-				describe: '创建类型(仅支持page或component)',
+				desc: '创建类型(仅支持page或component)',
+				global: true,
 			},
 			i: {
 				alias: 'indent',
-				describe: '文件缩进的方式',
+				desc: '文件缩进的方式',
 			},
 			d: {
 				alias: 'dir',
-				describe: '小程序源代码根目录 (app.json 所在目录)',
+				desc: '小程序源代码根目录 (app.json 所在目录)',
 				type: 'string',
 			},
 			n: {
 				alias: 'name',
-				describe: '生成页面的名称 (可包含路径)',
+				desc: '生成页面的名称 (可包含路径)',
 				type: 'string',
 			},
 			j: {
 				alias: 'json',
-				describe: '是否需要生成配置文件 (.json)',
+				desc: '是否需要生成配置文件 (.json)',
 				type: 'boolean',
 			},
 			s: {
 				alias: 'style',
-				describe: '样式文件的类型 (如 wcss, scss 等)',
+				desc: '样式文件的类型 (如 wcss, scss 等)',
 				type: 'string',
 			},
 			y: {
 				alias: 'yes',
-				describe: '使用默认值生成相关文件',
+				desc: '使用默认值生成相关文件',
 				type: 'boolean',
 			},
 		})
+		.help()
 		.argv
 	;
 };
