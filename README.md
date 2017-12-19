@@ -23,17 +23,6 @@ $ yarn add creat-wxapp-page
 $ create-wxapp-page --help
 ```
 
-### 重置模板
-```bash
-$ create-wxapp-page reset
-```
-
-### 查看模板位置
-```bash
-$ create-wxapp-page dir
-```
->打开模板所在位置，按照需要修改模板的文件内容并保存
-
 ### 创建页面
 #### 示例一
 （使用yes模式，没有配置的内容使用默认值进行配置）
@@ -59,6 +48,27 @@ $ create-wxapp-page --name test
 - yes: 使用默认值生成相关文件
 - help: 查看帮助
 
+### 重置模板
+```bash
+$ create-wxapp-page reset
+```
+
+### 查看模板位置
+```bash
+$ create-wxapp-page dir
+```
+>打开模板所在位置，按照需要修改模板的文件内容并保存
+
+
+## 自定义模版
+
+1. 通过 `create-wxapp-page open` 命令打开模版目录
+2. 编辑并替换默认模版
+3. 完成
+
+*Tips* 若需要重置使用默认模版，可以执行 `create-wxapp-page reset` 命令
+
+
 ## 更新历史
 2017.12.16
 - 支持自定义模板
@@ -76,6 +86,7 @@ $ create-wxapp-page --name test
 2017.8.10
 - 增加可配置内容(indent，dir)
 - 增加命令行参数
+
 
 ## License
 
