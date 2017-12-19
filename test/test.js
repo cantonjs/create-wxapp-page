@@ -16,8 +16,7 @@ describe('test create page', () => {
 		kapok = new Kapok(command, []);
 
 		await kapok
-			.ignoreUntil(/Init Templates Success/)
-			.assert(`? 请输入小程序源代码根目录 (app.json 所在目录) (${process.cwd()})`, {
+			.assertUntil(`? 请输入小程序源代码根目录 (app.json 所在目录) (${process.cwd()})`, {
 				action: () => {
 					kapok.write('test/src\n');
 				}
@@ -113,7 +112,7 @@ describe('test create component', () => {
 		kapok = new Kapok(command, []);
 
 		await kapok
-			.assert(`? 请输入小程序源代码根目录 (app.json 所在目录) (${process.cwd()})`, {
+			.assertUntil(`? 请输入小程序源代码根目录 (app.json 所在目录) (${process.cwd()})`, {
 				action: () => {
 					kapok.write('test/src\n');
 				}
@@ -184,22 +183,6 @@ describe('test create component', () => {
 		}
 	});
 
-});
-
-describe('reset template', () => {
-	it('create component with yes mode', async () => {
-		const binFile = Object.keys(bin)[0];
-		const command = resolve(`bin/${binFile}`);
-		const	kapok = new Kapok(
-			command,
-			['reset'],
-			{ cwd: __dirname }
-		);
-
-		await kapok
-			.assertUntil(/Init Templates Success/)
-			.done();
-	});
 });
 
 describe('show template dir', () => {
