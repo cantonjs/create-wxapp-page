@@ -16,6 +16,7 @@ describe('test create page', () => {
 		kapok = new Kapok(command, []);
 
 		await kapok
+			.ignoreUntil(/Init Templates Success/)
 			.assert(`? 请输入小程序源代码根目录 (app.json 所在目录) (${process.cwd()})`, {
 				action: () => {
 					kapok.write('test/src\n');
