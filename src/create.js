@@ -135,10 +135,7 @@ const createPromptItems = (options) => ([
 		message: '请选择需要创建的类型',
 		default: defaultValue.type,
 		type: 'list',
-		choices: [
-			'page',
-			'component',
-		],
+		choices: ['page', 'component'],
 		name: 'type',
 		when: !options.dir,
 		validate: (answer) => {
@@ -205,8 +202,9 @@ export const createBuilder = (yargs) => {
 		.options({
 			t: {
 				alias: 'type',
-				desc: '创建类型(仅支持page或component)',
-				global: true,
+				desc: '创建类型',
+				choices: ['page', 'component'],
+				type: 'string'
 			},
 			i: {
 				alias: 'indent',
