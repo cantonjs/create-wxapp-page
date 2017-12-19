@@ -23,7 +23,7 @@ const app = async () => {
 		})
 		.command({
 			command: 'open',
-			handler: () => opn(dir),
+			handler: () => opn(dir, { wait: false }),
 		})
 		.alias('h', 'help')
 		.alias('v', 'version')
