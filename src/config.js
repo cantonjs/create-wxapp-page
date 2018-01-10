@@ -12,6 +12,6 @@ export const init = () => {
 		console.log(`[Init Templates Success]: ${dir}`);
 	}
 	catch (err) {
-		console.error(`[Init Templates Error] ${dir}`);
+		console.error(`[Init Templates Error] ${err}`);
 	}
 };
