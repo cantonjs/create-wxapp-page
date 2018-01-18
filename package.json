@@ -17,7 +17,7 @@
     "cli": "CWP_ENV=development ./bin/create-wxapp-page",
     "prebuild": "rimraf lib",
     "build:babel": "babel src -d lib",
-    "build:cpy": "cpy '**/template.*' '../lib/' --cwd=src --parents --no-overwrite",
+    "build:cpy": "cpy '**/template.*' '../lib/' --cwd=src --parents",
     "build": "run-s build:*",
     "preversion": "run-s test build"
   },
