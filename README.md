@@ -12,7 +12,7 @@
 ## 安装
 
 ```bash
-$ yarn add creat-wxapp-page
+$ yarn add create-wxapp-page
 ```
 
 
