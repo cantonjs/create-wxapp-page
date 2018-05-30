@@ -73,23 +73,8 @@ $ create-wxapp-page open
 *Tips* 若需要重置使用默认模版，可以执行 `create-wxapp-page reset` 命令
 
 
-## 更新历史
-2017.12.16
-- 支持自定义模板
-- 支持创建小程序组件
-
-2017.10.27
-- 支持自定义样式文件后缀名
-- 优化了找不到 `app.json` 时出错的用户体验
-- `app.json` `pages` 上不会重复添加已存在的 `page`
-
-2017.9.24
-- name支持使用相对/绝对路径
-- 样式统一用wxss单个模板处理
-
-2017.8.10
-- 增加可配置内容(indent，dir)
-- 增加命令行参数
+## 更新日志
+[Changelog](/CHANGELOG.md)
 
 
 ## License

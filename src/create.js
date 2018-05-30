@@ -147,7 +147,11 @@ const createPromptItems = (options) => ([
 	{
 		message: (answers) => {
 			const { type } = answers;
-			const typeText = type === 'page' ? '页面' : '组件';
+			let currentType = type;
+			if (!currentType) {
+				currentType = options.type;
+			}
+			const typeText = currentType === 'page' ? '页面' : '组件';
 			return `请输入${typeText}名称 (可包含路径)`;
 		},
 		default: defaultValue.name,
@@ -169,7 +173,11 @@ const createPromptItems = (options) => ([
 		name: 'json',
 		when: (answers) => {
 			const { type } = answers;
-			return type !== 'component' && !options.json;
+			let currentType = type;
+			if (!currentType) {
+				currentType = options.type;
+			}
+			return currentType !== 'component' && !options.json;
 		}
 	},
 	{
@@ -241,19 +249,20 @@ export const createBuilder = (yargs) => {
 };
 
 export const createHandler = async (argv) => {
+	const options = {};
 	if (!fs.existsSync(templatePath)) {
 		init();
 	}
 
 	if (argv.yes) {
-		Object.assign({}, defaultValue, argv);
+		Object.assign(options, defaultValue, argv);
 	}
 	else {
 		const promptItems = createPromptItems(argv);
 		const answers = await inquirer.prompt(promptItems);
 		Object.keys(answers).forEach((key) => {
-			argv[key] = answers[key];
+			options[key] = answers[key];
 		});
 	}
-	create(argv);
+	create(options);
 };
