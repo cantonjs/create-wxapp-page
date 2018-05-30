@@ -1,7 +1,7 @@
 {
   "name": "create-wxapp-page",
   "description": "快速创建微信小程序页面",
-  "version": "2.0.6",
+  "version": "2.0.7",
   "main": "lib/index",
   "bin": {
     "create-wxapp-page": "bin/create-wxapp-page"
