@@ -11,3 +11,4 @@ Thumbs.db
 node_modules
 lib
 test/src/pages
+test/src/components
