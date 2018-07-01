@@ -28,7 +28,7 @@ const formatTemplate = (templateFile, pathname, basename, indent) => {
 	return templateStr;
 };
 
-// 如果name只提供页面名称（例如name: 'myPage'），则最终生成的目录，和目前版本的行为一样，是 {project}/pages/myPage/myPage ({project}为app.json所在目录)。
+// 如果name只提供页面名称（例如name: 'myPage'），则最终生成的目录是 {project}/pages/myPage/myPage ({project}为app.json所在目录)。
 // 如果name是相对路径（例如name: 'path/myPage'），则最终生成的目录是 {project}/pages/path/myPage。
 // 如果name是绝对路径（例如name: '/some/path/myPage'），则最终生成的目录是 {project}/some/path/myPage。
 // 如果name只填写了路径（例如name: '/some/path/'），则自动把最后的路径当做页面名称，最终生成的目录是{project}/some/path/path。
@@ -249,20 +249,16 @@ export const createBuilder = (yargs) => {
 };
 
 export const createHandler = async (argv) => {
-	const options = {};
 	if (!fs.existsSync(templatePath)) {
 		init();
 	}
 
-	if (argv.yes) {
-		Object.assign(options, defaultValue, argv);
-	}
-	else {
+	if (!argv.yes) {
 		const promptItems = createPromptItems(argv);
 		const answers = await inquirer.prompt(promptItems);
 		Object.keys(answers).forEach((key) => {
-			options[key] = answers[key];
+			argv[key] = answers[key];
 		});
 	}
-	create(options);
+	create(argv);
 };
