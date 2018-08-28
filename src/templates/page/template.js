@@ -3,7 +3,7 @@ Page({
 		title: '<%= basename %>',
 	},
 
-	onLoad(parmas) {
-		console.log(parmas);
+	onLoad(params) {
+		console.log(params);
 	},
 });
