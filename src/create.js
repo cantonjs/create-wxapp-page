@@ -58,11 +58,12 @@ const validateAppJson = (rootDir) => {
 	return true;
 };
 
-const addRoute = (rootDir, pathname, basename, indent) => {
+const addRoute = (rootDir, pathname, basename = '', indent) => {
 	const filename = rootDir + '/app.json';
 	const content = fs.readFileSync(filename, 'utf8');
 	const json = JSON.parse(content);
-	const newPath = [pathname, basename].filter(Boolean).join('/');
+	// let newPath = [pathname, basename].filter(Boolean).join('/');
+	const newPath = join(pathname, basename).replace(/\\/g, '/');
 	if (json.pages.indexOf(newPath) < 0) { json.pages.push(newPath); }
 	const formatedIndent = indent === 'tab' ? '\t' : ~~indent;
 	const result = JSON.stringify(json, null, formatedIndent);
@@ -245,7 +246,7 @@ export const createBuilder = (yargs) => {
 		})
 		.help()
 		.argv
-	;
+		;
 };
 
 export const createHandler = async (argv) => {
