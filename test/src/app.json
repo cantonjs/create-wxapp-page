@@ -1,7 +1,6 @@
 {
   "pages": [
     "pages/default/default",
-    "pages/orders/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
