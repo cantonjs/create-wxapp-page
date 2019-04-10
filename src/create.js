@@ -16,6 +16,7 @@ const defaultValue = {
 	json: false,
 	style: 'wxss',
 	type: 'page',
+	index: true
 };
 
 const formatTemplate = (templateFile, pathname, basename, indent) => {
@@ -47,7 +48,7 @@ const parseName = (name, type) => {
 		pathname = pathname.replace(basename, '');
 	}
 
-	return { basename, pathname };
+	return { basename: defaultValue.index ? 'index' : basename, pathname };
 };
 
 const getRootDir = (dir) => resolve(cwd, dir);
@@ -180,6 +181,13 @@ const createPromptItems = (options) => ([
 			}
 			return currentType !== 'component' && !options.json;
 		}
+	},
+	{
+		message: '是否使用index作为文件名',
+		default: defaultValue.index,
+		type: 'confirm',
+		name: 'index',
+		when: !options.index
 	},
 	{
 		type: 'list',

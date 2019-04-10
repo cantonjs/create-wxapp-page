@@ -39,13 +39,19 @@ describe('test create page', () => {
 					kapok.write('\n');
 				}
 			})
-			.ignoreUntil('? 请输入文件缩进的方式 tab')
+			.ignoreUntil('? 是否需要生成配置文件 (.json) Yes')
 			.assert('? 是否需要生成配置文件 (.json) (y/N)', {
 				action: () => {
 					kapok.write('y\n');
 				}
 			})
-			.ignoreUntil('? 是否需要生成配置文件 (.json) Yes')
+			.ignoreUntil('? 是否使用index作为文件名 Yes')
+			.assert('? 是否使用index作为文件名 (y/N)', {
+				action: () => {
+					kapok.write('y\n');
+				}
+			})
+			.ignoreUntil('? 请输入文件缩进的方式 tab')
 			.assert('? 请选择样式文件的类型 (Use arrow keys)', {
 				action: () => {
 					kapok.write('\n');
