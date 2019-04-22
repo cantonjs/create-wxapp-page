@@ -16,7 +16,7 @@ const defaultValue = {
 	json: false,
 	style: 'wxss',
 	type: 'page',
-	index: true
+	filename: null
 };
 
 const formatTemplate = (templateFile, pathname, basename, indent) => {
@@ -34,7 +34,7 @@ const formatTemplate = (templateFile, pathname, basename, indent) => {
 // 如果name是绝对路径（例如name: '/some/path/myPage'），则最终生成的目录是 {project}/some/path/myPage。
 // 如果name只填写了路径（例如name: '/some/path/'），则自动把最后的路径当做页面名称，最终生成的目录是{project}/some/path/path。
 
-const parseName = (name, type) => {
+const parseName = (name, type, filename) => {
 	const { dir, name: basename, root } = parse(name);
 	const defaultRoot = type === 'page' ? 'pages' : 'components';
 	const isAbsolutePath = isAbsolute(name);
@@ -48,7 +48,7 @@ const parseName = (name, type) => {
 		pathname = pathname.replace(basename, '');
 	}
 
-	return { basename: defaultValue.index ? 'index' : basename, pathname };
+	return { basename: filename || basename, pathname };
 };
 
 const getRootDir = (dir) => resolve(cwd, dir);
@@ -78,12 +78,12 @@ const create = (options) => {
 
 	options = Object.assign({}, defaultValue, options);
 
-	const { dir, name, indent, json, style, type } = options;
+	const { dir, name, indent, json, style, type, filename } = options;
 	const rootDir = getRootDir(dir);
 
 	validateAppJson(rootDir);
 
-	const { pathname, basename } = parseName(name, type);
+	const { pathname, basename } = parseName(name, type, filename);
 
 	const fileRoot = resolve(rootDir, pathname);
 
@@ -162,6 +162,23 @@ const createPromptItems = (options) => ([
 		when: !options.name,
 	},
 	{
+		message: (answers) => {
+			const { type } = answers;
+			let currentType = type;
+			if (!currentType) {
+				currentType = options.type;
+			}
+			const typeText = currentType === 'page' ? '页面' : '组件';
+			return `请输入文件名，默认与${typeText}名称相同`;
+		},
+		default: (answers) => {
+			return answers.name
+		},
+		type: 'input',
+		name: 'filename',
+		when: !options.filename
+	},
+	{
 		message: '请输入文件缩进的方式',
 		default: defaultValue.indent,
 		type: 'input',
@@ -181,13 +198,6 @@ const createPromptItems = (options) => ([
 			}
 			return currentType !== 'component' && !options.json;
 		}
-	},
-	{
-		message: '是否使用index作为文件名',
-		default: defaultValue.index,
-		type: 'confirm',
-		name: 'index',
-		when: !options.index
 	},
 	{
 		type: 'list',
@@ -234,6 +244,11 @@ export const createBuilder = (yargs) => {
 			n: {
 				alias: 'name',
 				desc: '生成页面的名称 (可包含路径)',
+				type: 'string',
+			},
+			f: {
+				alias: 'filename',
+				desc: '请输入文件名，默认与页面名称相同',
 				type: 'string',
 			},
 			j: {

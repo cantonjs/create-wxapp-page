@@ -34,24 +34,24 @@ describe('test create page', () => {
 				}
 			})
 			.ignoreUntil('? 请输入页面名称 (可包含路径) test')
+			.assert('? 请输入文件名，默认与页面名称相同 (test)', {
+				action: () => {
+					kapok.write('\n');
+				}
+			})
+			.ignoreUntil('? 请输入文件名，默认与页面名称相同 test')
 			.assert('? 请输入文件缩进的方式 (tab)', {
 				action: () => {
 					kapok.write('\n');
 				}
 			})
-			.ignoreUntil('? 是否需要生成配置文件 (.json) Yes')
+			.ignoreUntil('? 请输入文件缩进的方式 tab')
 			.assert('? 是否需要生成配置文件 (.json) (y/N)', {
 				action: () => {
 					kapok.write('y\n');
 				}
 			})
-			.ignoreUntil('? 是否使用index作为文件名 Yes')
-			.assert('? 是否使用index作为文件名 (y/N)', {
-				action: () => {
-					kapok.write('y\n');
-				}
-			})
-			.ignoreUntil('? 请输入文件缩进的方式 tab')
+			.ignoreUntil('? 是否需要生成配置文件 (.json) Yes')
 			.assert('? 请选择样式文件的类型 (Use arrow keys)', {
 				action: () => {
 					kapok.write('\n');
@@ -82,6 +82,20 @@ describe('test create page', () => {
 		kapok = new Kapok(
 			command,
 			['-d', './src/', '--name', 'test/detail',  '--yes'],
+			{ cwd: __dirname }
+		);
+
+		await kapok
+			.assertUntil(/创建结束/)
+			.done();
+	});
+
+	it('create page and filename is "index"', async () => {
+		const binFile = Object.keys(bin)[0];
+		const command = resolve(`bin/${binFile}`);
+		kapok = new Kapok(
+			command,
+			['-d', './src/', '--name', 'test', '-f', 'home',  '--yes'],
 			{ cwd: __dirname }
 		);
 
@@ -137,6 +151,12 @@ describe('test create component', () => {
 				}
 			})
 			.ignoreUntil('? 请输入组件名称 (可包含路径) test')
+			.assert('? 请输入文件名，默认与组件名称相同 (test)', {
+				action: () => {
+					kapok.write('\n');
+				}
+			})
+			.ignoreUntil('? 请输入文件名，默认与组件名称相同 test')
 			.assert('? 请输入文件缩进的方式 (tab)', {
 				action: () => {
 					kapok.write('\n');
@@ -206,5 +226,4 @@ describe('show template dir', () => {
 			.done();
 	});
 });
-
 
