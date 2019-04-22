@@ -200,6 +200,20 @@ describe('test create component', () => {
 			.done();
 	});
 
+	it('create component with yes mode and filename is "index"', async () => {
+		const binFile = Object.keys(bin)[0];
+		const command = resolve(`bin/${binFile}`);
+		kapok = new Kapok(
+			command,
+			['-d', './src/', '--name', './component/text', '--type', 'component', '--filename', 'index', '--yes'],
+			{ cwd: __dirname }
+		);
+
+		await kapok
+			.assertUntil(/创建结束/)
+			.done();
+	});
+
 	beforeEach(() => {
 		if (hasAppJsonFile) {
 			const componentsfilePath = resolve('test/src/components/');
